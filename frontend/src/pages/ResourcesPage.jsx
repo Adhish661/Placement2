@@ -179,7 +179,26 @@ const ResourcesPage = () => {
                         size="small"
                         onClick={(e) => {
                           e.stopPropagation();
-                          window.open(resource.fileUrl, '_blank');
+                          if (!resource.fileUrl) return;
+
+                          // Decide extension based on stored MIME type: PDF vs image
+                          let ext = '';
+                          const mime = resource.fileMimeType || '';
+                          if (mime.includes('pdf')) {
+                            ext = '.pdf';
+                          } else if (mime.startsWith('image/')) {
+                            ext = '.jpg';
+                          }
+
+                          const safeTitle = resource.title || 'resource';
+                          const downloadName = ext ? `${safeTitle}${ext}` : safeTitle;
+
+                          const link = document.createElement('a');
+                          link.href = resource.fileUrl;
+                          link.setAttribute('download', downloadName);
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
                         }}
                       >
                         <Download fontSize="small" />

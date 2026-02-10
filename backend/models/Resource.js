@@ -21,6 +21,9 @@ const resourceSchema = mongoose.Schema(
     filePublicId: {
       type: String,
     },
+    fileMimeType: {
+      type: String,
+    },
     uploadedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

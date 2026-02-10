@@ -26,6 +26,9 @@ const certificateSchema = mongoose.Schema(
     filePublicId: {
       type: String,
     },
+    fileMimeType: {
+      type: String,
+    },
     issuedBy: {
       type: String,
     },

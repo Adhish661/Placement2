@@ -134,11 +134,16 @@ router.post('/upload', protect, upload.single('file'), async (req, res) => {
     const base64 = req.file.buffer.toString('base64');
     const dataURI = `data:${req.file.mimetype};base64,${base64}`;
 
+    // Decide resource_type based on MIME type: images as 'image', others as 'raw'
+    const isImage = req.file.mimetype.startsWith('image/');
+    const resourceType = isImage ? 'image' : 'raw';
+
     // Upload to Cloudinary
     let result;
     try {
       result = await cloudinary.uploader.upload(dataURI, {
         folder: 'placement-portal',
+        resource_type: resourceType,
       });
     } catch (cloudinaryError) {
       console.error('Cloudinary upload error:', cloudinaryError);

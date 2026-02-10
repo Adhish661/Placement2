@@ -555,107 +555,142 @@ const EducationTab = ({ profile, onSave }) => {
   );
 };
 
-// Skills Tab Component
+// Skills Tab Component (dynamic sections)
 const SkillsTab = ({ profile, onSave }) => {
-  const [technicalSkills, setTechnicalSkills] = useState([]);
-  const [languages, setLanguages] = useState([]);
-  const [skillInput, setSkillInput] = useState('');
-  const [languageInput, setLanguageInput] = useState('');
+  const [sections, setSections] = useState([]);
+  const [newSectionName, setNewSectionName] = useState('');
+  const [newSkillInputs, setNewSkillInputs] = useState({});
 
+  // Initialize from profile, supporting both new (sections) and old (technical/languages) formats
   useEffect(() => {
     if (profile?.skills) {
-      setTechnicalSkills(profile.skills.technical || []);
-      setLanguages(profile.skills.languages || []);
+      if (Array.isArray(profile.skills.sections)) {
+        setSections(profile.skills.sections);
+      } else {
+        const initialSections = [];
+        if (Array.isArray(profile.skills.technical) && profile.skills.technical.length) {
+          initialSections.push({ name: 'Technical Skills', items: profile.skills.technical });
+        }
+        if (Array.isArray(profile.skills.languages) && profile.skills.languages.length) {
+          initialSections.push({ name: 'Languages', items: profile.skills.languages });
+        }
+        setSections(initialSections);
+      }
     }
   }, [profile]);
 
-  const handleAddSkill = () => {
-    if (skillInput.trim()) {
-      setTechnicalSkills([...technicalSkills, skillInput.trim()]);
-      setSkillInput('');
+  const handleAddSection = () => {
+    const name = newSectionName.trim();
+    if (!name) return;
+    if (sections.some((s) => s.name.toLowerCase() === name.toLowerCase())) return;
+    setSections([...sections, { name, items: [] }]);
+    setNewSectionName('');
+  };
+
+  const handleRemoveSection = (index) => {
+    setSections(sections.filter((_, i) => i !== index));
+  };
+
+  const handleAddSkillToSection = (index) => {
+    const value = (newSkillInputs[index] || '').trim();
+    if (!value) return;
+    const updated = [...sections];
+    if (!updated[index].items.includes(value)) {
+      updated[index] = {
+        ...updated[index],
+        items: [...updated[index].items, value],
+      };
+      setSections(updated);
     }
+    setNewSkillInputs({ ...newSkillInputs, [index]: '' });
   };
 
-  const handleAddLanguage = () => {
-    if (languageInput.trim()) {
-      setLanguages([...languages, languageInput.trim()]);
-      setLanguageInput('');
-    }
-  };
-
-  const handleRemoveSkill = (index) => {
-    setTechnicalSkills(technicalSkills.filter((_, i) => i !== index));
-  };
-
-  const handleRemoveLanguage = (index) => {
-    setLanguages(languages.filter((_, i) => i !== index));
+  const handleRemoveSkillFromSection = (sectionIndex, skillIndex) => {
+    const updated = [...sections];
+    updated[sectionIndex] = {
+      ...updated[sectionIndex],
+      items: updated[sectionIndex].items.filter((_, i) => i !== skillIndex),
+    };
+    setSections(updated);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ technical: technicalSkills, languages });
+    onSave({ sections });
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Typography variant="h6" sx={{ mb: 2 }}>
-        Technical Skills
+        Skill Sections
       </Typography>
-      <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
-        {technicalSkills.map((skill, index) => (
-          <Chip
-            key={index}
-            label={skill}
-            onDelete={() => handleRemoveSkill(index)}
-            color="primary"
-          />
-        ))}
-      </Box>
-      <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
-        <TextField
-          value={skillInput}
-          onChange={(e) => setSkillInput(e.target.value)}
-          placeholder="Add technical skill"
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              handleAddSkill();
-            }
-          }}
-        />
-        <Button onClick={handleAddSkill} variant="outlined">
-          Add
-        </Button>
-      </Box>
 
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Languages Known
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
-        {languages.map((lang, index) => (
-          <Chip
-            key={index}
-            label={lang}
-            onDelete={() => handleRemoveLanguage(index)}
-            color="secondary"
+      {/* Existing sections */}
+      {sections.map((section, index) => (
+        <Box key={index} sx={{ mb: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+              {section.name}
+            </Typography>
+            <Button
+              size="small"
+              color="error"
+              onClick={() => handleRemoveSection(index)}
+            >
+              Remove Section
+            </Button>
+          </Box>
+          <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+            {section.items.map((skill, skillIndex) => (
+              <Chip
+                key={skillIndex}
+                label={skill}
+                onDelete={() => handleRemoveSkillFromSection(index, skillIndex)}
+                color="primary"
+              />
+            ))}
+          </Box>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <TextField
+              value={newSkillInputs[index] || ''}
+              onChange={(e) =>
+                setNewSkillInputs({ ...newSkillInputs, [index]: e.target.value })
+              }
+              placeholder={`Add skill to "${section.name}"`}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddSkillToSection(index);
+                }
+              }}
+              size="small"
+            />
+            <Button
+              variant="outlined"
+              onClick={() => handleAddSkillToSection(index)}
+            >
+              Add
+            </Button>
+          </Box>
+        </Box>
+      ))}
+
+      {/* Add new section */}
+      <Box sx={{ mt: 2, mb: 3 }}>
+        <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          Add New Section
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <TextField
+            value={newSectionName}
+            onChange={(e) => setNewSectionName(e.target.value)}
+            placeholder="Section name (e.g. Frameworks, Languages, Tools)"
+            size="small"
           />
-        ))}
-      </Box>
-      <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
-        <TextField
-          value={languageInput}
-          onChange={(e) => setLanguageInput(e.target.value)}
-          placeholder="Add language"
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              handleAddLanguage();
-            }
-          }}
-        />
-        <Button onClick={handleAddLanguage} variant="outlined">
-          Add
-        </Button>
+          <Button variant="outlined" onClick={handleAddSection}>
+            Add Section
+          </Button>
+        </Box>
       </Box>
 
       <Button type="submit" variant="contained">

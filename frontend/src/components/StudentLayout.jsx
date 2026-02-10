@@ -209,16 +209,21 @@ const StudentLayout = ({ children }) => {
               <Notifications />
             </Badge>
           </IconButton>
-          <IconButton onClick={handleMenuOpen} sx={{ position: 'relative' }}>
-            <Avatar 
-              src={profilePhoto} 
-              sx={{ width: 32, height: 32, bgcolor: '#667eea' }}
-            >
-              {!profilePhoto && userInfo?.name?.charAt(0).toUpperCase()}
-            </Avatar>
+          {/* Avatar + profile edit overlay without nesting buttons */}
+          <Box sx={{ position: 'relative' }}>
+            <IconButton onClick={handleMenuOpen}>
+              <Avatar 
+                src={profilePhoto} 
+                sx={{ width: 32, height: 32, bgcolor: '#667eea' }}
+              >
+                {!profilePhoto && userInfo?.name?.charAt(0).toUpperCase()}
+              </Avatar>
+            </IconButton>
             {profilePhoto && (
-              <IconButton
-                size="small"
+              <Box
+                component="span"
+                role="button"
+                tabIndex={0}
                 sx={{
                   position: 'absolute',
                   bottom: 0,
@@ -227,17 +232,29 @@ const StudentLayout = ({ children }) => {
                   color: 'white',
                   width: 20,
                   height: 20,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
                   '&:hover': { bgcolor: '#5568d3' },
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate('/profile');
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigate('/profile');
+                  }
+                }}
               >
                 <Edit sx={{ fontSize: 12 }} />
-              </IconButton>
+              </Box>
             )}
-          </IconButton>
+          </Box>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}

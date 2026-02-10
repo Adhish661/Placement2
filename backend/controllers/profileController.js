@@ -145,10 +145,28 @@ export const updateSkills = asyncHandler(async (req, res) => {
     };
   }
 
-  profile.skills = {
-    technical: req.body.technical || [],
-    languages: req.body.languages || [],
-  };
+  // New dynamic skills structure: array of sections with name + items
+  // Expecting req.body.sections = [{ name, items: [] }]
+  if (Array.isArray(req.body.sections)) {
+    profile.skills = {
+      sections: req.body.sections.map((section) => ({
+        name: section.name || 'Skills',
+        items: Array.isArray(section.items) ? section.items : [],
+      })),
+    };
+  } else {
+    // Backwards compatibility: accept old technical/languages shape
+    profile.skills = {
+      sections: [
+        ...(Array.isArray(req.body.technical) && req.body.technical.length
+          ? [{ name: 'Technical Skills', items: req.body.technical }]
+          : []),
+        ...(Array.isArray(req.body.languages) && req.body.languages.length
+          ? [{ name: 'Languages', items: req.body.languages }]
+          : []),
+      ],
+    };
+  }
 
   profile.profileCompletion.skills = true;
   

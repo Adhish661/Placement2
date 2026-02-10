@@ -43,14 +43,24 @@ export const generateResume = asyncHandler(async (req, res) => {
     doc.text(`${addr.city}, ${addr.state} ${addr.pincode}`, { align: 'center' });
   }
 
+  // Flatten all skills from dynamic sections (or fallback)
+  const sectionSkills = Array.isArray(profile.skills?.sections)
+    ? profile.skills.sections.flatMap((s) => s.items || [])
+    : [
+        ...(profile.skills?.technical || []),
+        ...(profile.skills?.languages || []),
+      ];
+
   // Summary
-  if (profile.skills?.technical?.length > 0) {
+  if (sectionSkills.length > 0) {
     doc.moveDown(1);
     doc.fontSize(14).font('Helvetica-Bold').text('SUMMARY');
     doc.moveDown(0.3);
     doc.fontSize(10).font('Helvetica');
+    const topSkills = sectionSkills.slice(0, 5).join(', ');
+    const program = profile.education?.current?.program || '';
     const summary = `
-      Results-driven ${profile.education?.current?.program }student with strong foundations in ${profile.skills.technical.slice(0, 5).join(', ')} and problem-solving.Experienced in building practical, real-world projects with a focus on performance, scalability, and clean code practices. Quick learner with the ability to adapt to new technologies and work effectively in team-based environments.Seeking an opportunity to contribute technical expertise, analytical thinking, and innovation to a growth-oriented organization.`;
+    Results-driven ${program} student with strong foundations in ${topSkills} and problem-solving. Experienced in building practical, real-world projects with a focus on performance, scalability, and clean code practices. Quick learner with the ability to adapt to new technologies and work effectively in team-based environments. Seeking an opportunity to contribute technical expertise, analytical thinking, and innovation to a growth-oriented organization.`;
     doc.text(summary, { align: 'left' });
   }
 
@@ -90,18 +100,30 @@ export const generateResume = asyncHandler(async (req, res) => {
   }
 
   // Skills
-  if (profile.skills?.technical?.length > 0 || profile.skills?.languages?.length > 0) {
+  const sections =
+    Array.isArray(profile.skills?.sections) && profile.skills.sections.length
+      ? profile.skills.sections
+      : [
+          ...(profile.skills?.technical?.length
+            ? [{ name: 'Technical', items: profile.skills.technical }]
+            : []),
+          ...(profile.skills?.languages?.length
+            ? [{ name: 'Languages', items: profile.skills.languages }]
+            : []),
+        ];
+
+  if (sections.length > 0) {
     doc.moveDown(1);
     doc.fontSize(14).font('Helvetica-Bold').text('SKILLS');
     doc.moveDown(0.3);
     doc.fontSize(10).font('Helvetica');
     
-    if (profile.skills.technical.length > 0) {
-      doc.text(`Technical: ${profile.skills.technical.join(', ')}`);
-    }
-    if (profile.skills.languages.length > 0) {
-      doc.text(`Languages: ${profile.skills.languages.join(', ')}`);
-    }
+    sections.forEach((section) => {
+      if (section.items && section.items.length) {
+        const label = section.name || 'Skills';
+        doc.text(`${label}: ${section.items.join(', ')}`);
+      }
+    });
   }
 
   // Projects

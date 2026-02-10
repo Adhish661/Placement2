@@ -1,5 +1,11 @@
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
+import dotenv from 'dotenv';
+
+// Ensure .env variables are loaded BEFORE reading Cloudinary creds.
+// This is important because this file is imported from route files,
+// which are evaluated before `dotenv.config()` in `server.js`.
+dotenv.config();
 
 // Check if Cloudinary credentials are configured
 const cloudName = process.env.CLOUDINARY_CLOUD_NAME;

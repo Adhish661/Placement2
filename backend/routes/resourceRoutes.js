@@ -30,11 +30,15 @@ router.post('/', protect, authorize('DEPT_COORDINATOR'), upload.single('file'), 
     const base64 = req.file.buffer.toString('base64');
     const dataURI = `data:${req.file.mimetype};base64,${base64}`;
 
+    // Decide resource_type based on MIME type: images as 'image', others as 'raw'
+    const isImage = req.file.mimetype.startsWith('image/');
+    const resourceType = isImage ? 'image' : 'raw';
+
     let result;
     try {
       result = await cloudinary.uploader.upload(dataURI, {
         folder: 'placement-portal/resources',
-        resource_type: 'auto',
+        resource_type: resourceType,
       });
     } catch (cloudinaryError) {
       console.error('Cloudinary upload error:', cloudinaryError);
@@ -48,6 +52,7 @@ router.post('/', protect, authorize('DEPT_COORDINATOR'), upload.single('file'), 
       ...req.body,
       fileUrl: result.secure_url,
       filePublicId: result.public_id,
+      fileMimeType: req.file.mimetype,
       uploadedBy: req.user._id,
       department: req.user.department || req.body.department,
     });

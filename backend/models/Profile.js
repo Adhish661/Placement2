@@ -70,10 +70,14 @@ const profileSchema = mongoose.Schema(
         percentage: Number,
       },
     },
-    // Skills & Languages
+    // Skills - dynamic sections with named groups of skills
     skills: {
-      technical: [String],
-      languages: [String],
+      sections: [
+        {
+          name: String,
+          items: [String],
+        },
+      ],
     },
     // Profile Photo
     profilePhoto: {

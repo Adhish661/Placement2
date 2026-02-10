@@ -437,23 +437,36 @@ const StudentDashboard = () => {
                       <ListItemText
                         primary={cert.title}
                         secondary={
-                          <Box>
-                            <Typography variant="caption" display="block">
+                          <>
+                            <Typography variant="caption" component="span" display="block">
                               {cert.type} {cert.issuedBy && `• ${cert.issuedBy}`}
                             </Typography>
                             {cert.description && (
-                              <Typography variant="caption" color="text.secondary">
+                              <Typography variant="caption" component="span" color="text.secondary" display="block">
                                 {cert.description}
                               </Typography>
                             )}
-                          </Box>
+                          </>
                         }
                       />
                       <ListItemSecondaryAction>
                         <IconButton
                           edge="end"
-                          onClick={() => window.open(cert.fileUrl, '_blank')}
                           sx={{ mr: 1 }}
+                          onClick={() => {
+                            if (!cert.fileUrl) return;
+
+                            // Always download certificates as PDF files (append .pdf)
+                            const safeTitle = cert.title || 'certificate';
+                            const downloadName = `${safeTitle}.pdf`;
+
+                            const link = document.createElement('a');
+                            link.href = cert.fileUrl;
+                            link.setAttribute('download', downloadName);
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                          }}
                         >
                           <Download />
                         </IconButton>
