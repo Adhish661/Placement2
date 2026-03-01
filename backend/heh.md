@@ -1,0 +1,1 @@
+mongodb+srv://GRA:GR%4012345678@cluster0.kkc8bzc.mongodb.net/placement_portal?retryWrites=true&w=majority
