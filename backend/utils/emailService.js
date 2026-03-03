@@ -120,8 +120,19 @@ export const sendEmailOtp = async (email, otp, purpose = 'register') => {
   if (!process.env.EMAIL_USER || !password) {
     return;
   }
-  const actionText =
-    purpose === 'update_email' ? 'update your email' : 'complete your registration';
+  
+  let actionText, subject;
+  if (purpose === 'update_email') {
+    actionText = 'update your email';
+    subject = 'Email Verification OTP';
+  } else if (purpose === 'forgot_password') {
+    actionText = 'reset your password';
+    subject = 'Password Reset OTP';
+  } else {
+    actionText = 'complete your registration';
+    subject = 'Email Verification OTP';
+  }
+  
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #4a5568;">Email Verification</h2>
@@ -130,13 +141,14 @@ export const sendEmailOtp = async (email, otp, purpose = 'register') => {
         ${otp}
       </div>
       <p style="margin-top: 16px;">This OTP will expire in 10 minutes.</p>
+      ${purpose === 'forgot_password' ? '<p style="color: #e53e3e;">If you did not request a password reset, please ignore this email.</p>' : ''}
       <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
       <p style="color: #718096; font-size: 12px;">This is an automated email from ${process.env.COLLEGE_NAME || 'IES College of Engineering'} Placement Portal.</p>
     </div>
   `;
   return sendEmail({
     email,
-    subject: 'Email Verification OTP',
+    subject,
     html,
   });
 };

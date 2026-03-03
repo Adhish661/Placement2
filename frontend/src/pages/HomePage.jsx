@@ -43,11 +43,11 @@ const HomePage = () => {
   };
 
   const announcements = [
-    { icon: '💡', text: 'Upcoming workshop on AI and ML!' },
-    { icon: '🎓', text: 'Admission open for 2025 batch!' },
-    { icon: '🚀', text: 'Placement training starts next week!' },
-    { icon: '🏆', text: 'Congrats to all students placed!' },
-    { icon: '🌟', text: 'In top companies!' },
+    { icon: '⚠️', text: 'Upcoming workshop on AI and ML!' },
+    { icon: '⚠️', text: 'Admission open for 2025 batch!' },
+    { icon: '⚠️', text: 'Placement training starts next week!' },
+    { icon: '⚠️', text: 'Congrats to all students placed!' },
+    { icon: '⚠️', text: 'In top companies!' },
   ];
 
   return (
@@ -246,7 +246,7 @@ const HomePage = () => {
                 fontSize: { xs: '1rem', md: '1.1rem' },
               }}
             >
-              This platform is designed to streamline the placement process for students and placement cell at IES. For students it offers an easy way to explore job opportunities, track applications and stay updated on campus placements. Join us in shaping your career journey!
+              We Guide students to their dream careers by assisting them in finding the right job offer for their career.
             </Typography>
 
             <Button

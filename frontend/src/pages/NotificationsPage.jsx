@@ -162,7 +162,7 @@ const NotificationsPage = () => {
                         {notification.isRead ? (
                           <Notifications sx={{ color: 'rgba(148,163,184,0.9)' }} />
                         ) : (
-                          <NotificationsActive sx={{ color: '#38bdf8' }} />
+                          <NotificationsActive sx={{ color: '#d1d5db' }} />
                         )}
                         {getNotificationIcon(notification.type)}
                       </ListItemIcon>

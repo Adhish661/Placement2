@@ -65,14 +65,23 @@ const CoordinatorSettingsPage = () => {
     }
   };
 
+  const handleUpdateProfile = async () => {
+    const nameTrimmed = profileData.name.trim();
+    if (nameTrimmed && !/^[A-Za-z\s.]+$/.test(nameTrimmed)) {
+      toast.error('Name should contain alphabets and spaces only');
+      return;
+    }
+    toast.success('Profile information updated (local only)');
+  };
+
   const handleChangePassword = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       toast.error('New passwords do not match');
       return;
     }
 
-    if (passwordData.newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters long');
+    if (passwordData.newPassword.length < 8) {
+      toast.error('Password must be at least 8 characters long');
       return;
     }
 
@@ -158,6 +167,15 @@ const CoordinatorSettingsPage = () => {
                     },
                   }}
                 />
+                <Button
+                  variant="contained"
+                  startIcon={<Save />}
+                  onClick={handleUpdateProfile}
+                  sx={{ mt: 2 }}
+                  disabled={loading}
+                >
+                  Update Profile
+                </Button>
                 <TextField
                   fullWidth
                   label="Department"

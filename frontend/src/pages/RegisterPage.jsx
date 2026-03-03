@@ -70,6 +70,12 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const trimmedName = formData.name.trim();
+    if (!trimmedName || !/^[A-Za-z\s.]+$/.test(trimmedName)) {
+      toast.error('Name should contain alphabets and spaces only');
+      return;
+    }
+
     if (!otpState.verified) {
       toast.error('Please verify your email with OTP');
       return;
@@ -80,8 +86,8 @@ const RegisterPage = () => {
       return;
     }
 
-    if (formData.password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+    if (formData.password.length < 8) {
+      toast.error('Password must be at least 8 characters');
       return;
     }
 
@@ -334,13 +340,17 @@ const RegisterPage = () => {
                   autoFocus
                   value={formData.name}
                   onChange={handleChange}
+                  inputProps={{ pattern: '[A-Za-z\\s.]+' }}
                   sx={{
                     '& .MuiInputBase-root': {
                       bgcolor: 'rgba(15, 23, 42, 0.9)',
                       color: '#e5e7eb',
                     },
                     '& .MuiInputLabel-root': {
-                      color: '#9ca3af',
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
                     },
                   }}
                 />
@@ -360,7 +370,10 @@ const RegisterPage = () => {
                       color: '#e5e7eb',
                     },
                     '& .MuiInputLabel-root': {
-                      color: '#9ca3af',
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
                     },
                   }}
                 />
@@ -388,7 +401,7 @@ const RegisterPage = () => {
                         bgcolor: 'rgba(15, 23, 42, 0.9)',
                         color: '#e5e7eb',
                       },
-                      '& .MuiInputBase-input::placeholder': { color: '#9ca3af', opacity: 1 },
+                      '& .MuiInputBase-input::placeholder': { color: '#d1d5db', opacity: 1 },
                     }}
                   />
                   <Button
@@ -420,7 +433,10 @@ const RegisterPage = () => {
                       color: '#e5e7eb',
                     },
                     '& .MuiInputLabel-root': {
-                      color: '#9ca3af',
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
                     },
                   }}
                 />
@@ -432,6 +448,7 @@ const RegisterPage = () => {
                   label="Confirm Password"
                   type="password"
                   id="confirmPassword"
+                  autoComplete="new-password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   sx={{
@@ -440,7 +457,10 @@ const RegisterPage = () => {
                       color: '#e5e7eb',
                     },
                     '& .MuiInputLabel-root': {
-                      color: '#9ca3af',
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
                     },
                   }}
                 />

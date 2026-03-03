@@ -84,8 +84,8 @@ const SettingsPage = () => {
       return;
     }
 
-    if (passwordData.newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters long');
+    if (passwordData.newPassword.length < 8) {
+      toast.error('Password must be at least 8 characters long');
       return;
     }
 
@@ -109,6 +109,11 @@ const SettingsPage = () => {
   };
 
   const handleUpdateProfile = async () => {
+    const nameTrimmed = profileData.name.trim();
+    if (nameTrimmed && !/^[A-Za-z\s.]+$/.test(nameTrimmed)) {
+      toast.error('Name should contain alphabets and spaces only');
+      return;
+    }
     try {
       setLoading(true);
       // In a real app, update user profile via API
@@ -227,13 +232,20 @@ const SettingsPage = () => {
                   onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
                   margin="normal"
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': { borderColor: 'rgba(148,163,184,0.45)' },
-                      '&:hover fieldset': { borderColor: '#38bdf8' },
-                      '&.Mui-focused fieldset': { borderColor: '#38bdf8' },
+                    '& .MuiInputBase-root': {
+                      backgroundColor: 'rgba(15, 23, 42, 0.9)',
                       color: '#e5e7eb',
                     },
-                    '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+                    '& .MuiInputLabel-root': {
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
+                    },
+                    '& .MuiInputBase-input::placeholder': { 
+                      color: '#d1d5db', 
+                      opacity: 1 
+                    },
                   }}
                 />
                 <TextField
@@ -245,11 +257,20 @@ const SettingsPage = () => {
                   margin="normal"
                   disabled
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': { borderColor: 'rgba(148,163,184,0.45)' },
+                    '& .MuiInputBase-root': {
+                      backgroundColor: 'rgba(15, 23, 42, 0.9)',
                       color: '#e5e7eb',
                     },
-                    '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+                    '& .MuiInputLabel-root': {
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
+                    },
+                    '& .MuiInputBase-input::placeholder': { 
+                      color: '#d1d5db', 
+                      opacity: 1 
+                    },
                   }}
                 />
                 <Divider sx={{ my: 2, borderColor: 'rgba(148,163,184,0.35)' }} />
@@ -272,13 +293,20 @@ const SettingsPage = () => {
                   }
                   margin="normal"
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': { borderColor: 'rgba(148,163,184,0.45)' },
-                      '&:hover fieldset': { borderColor: '#38bdf8' },
-                      '&.Mui-focused fieldset': { borderColor: '#38bdf8' },
+                    '& .MuiInputBase-root': {
+                      backgroundColor: 'rgba(15, 23, 42, 0.9)',
                       color: '#e5e7eb',
                     },
-                    '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+                    '& .MuiInputLabel-root': {
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
+                    },
+                    '& .MuiInputBase-input::placeholder': { 
+                      color: '#d1d5db', 
+                      opacity: 1 
+                    },
                   }}
                 />
                 <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -286,7 +314,7 @@ const SettingsPage = () => {
                     variant="outlined"
                     onClick={handleSendEmailOtp}
                     disabled={emailUpdate.sending || !emailUpdate.newEmail}
-                    sx={{ color: '#38bdf8', borderColor: 'rgba(56,189,248,0.6)' }}
+                    sx={{ color: '#ffffff', borderColor: 'rgba(56,189,248,0.6)' }}
                   >
                     {emailUpdate.sending ? 'Sending...' : emailUpdate.sent ? 'Resend OTP' : 'Send OTP'}
                   </Button>
@@ -296,11 +324,20 @@ const SettingsPage = () => {
                     value={emailUpdate.otp}
                     onChange={(e) => setEmailUpdate({ ...emailUpdate, otp: e.target.value })}
                     sx={{
-                      '& .MuiOutlinedInput-root': {
-                        bgcolor: 'rgba(15,23,42,0.9)',
-                        color: '#e5e7eb',
+                      '& .MuiInputBase-root': {
+                        backgroundColor: 'rgba(26, 35, 56, 0.9)',
+                        color: '#edf3ff',
                       },
-                      '& .MuiInputBase-input::placeholder': { color: 'rgba(148,163,184,0.9)', opacity: 1 },
+                      '& .MuiInputLabel-root': {
+                        color: '#ffffff',
+                      },
+                      '& .MuiInputLabel-root.Mui-focused': {
+                        color: '#ffffff',
+                      },
+                      '& .MuiInputBase-input::placeholder': { 
+                        color: '#ffffff', 
+                        opacity: 1 
+                      },
                     }}
                   />
                   <Button
@@ -325,7 +362,7 @@ const SettingsPage = () => {
                   onClick={handleUpdateProfile}
                   sx={{ 
                     mt: 2, 
-                    background: 'linear-gradient(135deg, #38bdf8 0%, #6366f1 100%)',
+                    background: 'linear-gradient(135deg, #38bdf8 0%, #055cf3 100%)',
                     '&:hover': { background: 'linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%)' },
                   }}
                   disabled={loading}
@@ -353,12 +390,20 @@ const SettingsPage = () => {
                   onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
                   margin="normal"
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': { borderColor: 'rgba(148,163,184,0.45)' },
-                      '&:hover fieldset': { borderColor: '#38bdf8' },
+                    '& .MuiInputBase-root': {
+                      backgroundColor: 'rgba(15, 23, 42, 0.9)',
                       color: '#e5e7eb',
                     },
-                    '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+                    '& .MuiInputLabel-root': {
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
+                    },
+                    '& .MuiInputBase-input::placeholder': { 
+                      color: '#d1d5db', 
+                      opacity: 1 
+                    },
                   }}
                 />
                 <TextField
@@ -369,12 +414,20 @@ const SettingsPage = () => {
                   onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
                   margin="normal"
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': { borderColor: 'rgba(148,163,184,0.45)' },
-                      '&:hover fieldset': { borderColor: '#38bdf8' },
+                    '& .MuiInputBase-root': {
+                      backgroundColor: 'rgba(15, 23, 42, 0.9)',
                       color: '#e5e7eb',
                     },
-                    '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+                    '& .MuiInputLabel-root': {
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
+                    },
+                    '& .MuiInputBase-input::placeholder': { 
+                      color: '#d1d5db', 
+                      opacity: 1 
+                    },
                   }}
                 />
                 <TextField
@@ -385,12 +438,20 @@ const SettingsPage = () => {
                   onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
                   margin="normal"
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': { borderColor: 'rgba(148,163,184,0.45)' },
-                      '&:hover fieldset': { borderColor: '#38bdf8' },
+                    '& .MuiInputBase-root': {
+                      backgroundColor: 'rgba(15, 23, 42, 0.9)',
                       color: '#e5e7eb',
                     },
-                    '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+                    '& .MuiInputLabel-root': {
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
+                    },
+                    '& .MuiInputBase-input::placeholder': { 
+                      color: '#d1d5db', 
+                      opacity: 1 
+                    },
                   }}
                 />
                 <Button

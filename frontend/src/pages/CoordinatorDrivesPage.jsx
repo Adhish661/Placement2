@@ -152,6 +152,22 @@ const CoordinatorDrivesPage = () => {
   };
 
   const applyStudentFilters = () => {
+    const min = studentFilters.minCGPA ? parseFloat(studentFilters.minCGPA) : null;
+    const max = studentFilters.maxCGPA ? parseFloat(studentFilters.maxCGPA) : null;
+
+    if (min != null && (min < 0 || min > 10)) {
+      toast.error('Minimum CGPA must be between 0 and 10');
+      return;
+    }
+    if (max != null && (max < 0 || max > 10)) {
+      toast.error('Maximum CGPA must be between 0 and 10');
+      return;
+    }
+    if (min != null && max != null && min > max) {
+      toast.error('Minimum CGPA cannot be greater than maximum CGPA');
+      return;
+    }
+
     let filtered = [...allStudents];
 
     if (studentFilters.minCGPA) {
@@ -241,17 +257,17 @@ const CoordinatorDrivesPage = () => {
             sx={{
               flex: '1 1 280px',
               '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' },
-              '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+              '& .MuiInputLabel-root': { color: '#d1d5db' },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Search sx={{ color: 'rgba(148,163,184,0.9)' }} />
+                  <Search sx={{ color: '#d1d5db' }} />
                 </InputAdornment>
               ),
             }}
           />
-          <FormControl size="small" sx={{ minWidth: 140, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(226,232,240,0.9)' } }}>
+          <FormControl size="small" sx={{ minWidth: 140, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#374151' } }} >
             <InputLabel>Status</InputLabel>
             <Select
               value={filterStatus}
@@ -269,7 +285,7 @@ const CoordinatorDrivesPage = () => {
               <MenuItem value="Closed">Closed</MenuItem>
             </Select>
           </FormControl>
-          <FormControl size="small" sx={{ minWidth: 160, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(226,232,240,0.9)' } }}>
+          <FormControl size="small" sx={{ minWidth: 160, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#374151' } }} >
             <InputLabel>Job Role</InputLabel>
             <Select
               value={filterRole}
@@ -612,6 +628,20 @@ const CoordinatorDrivesPage = () => {
               variant="contained"
               onClick={async () => {
                 try {
+                  const min = shareCriteria.minCGPA ? parseFloat(shareCriteria.minCGPA) : null;
+                  const max = shareCriteria.maxCGPA ? parseFloat(shareCriteria.maxCGPA) : null;
+                  if (min != null && (min < 0 || min > 10)) {
+                    toast.error('Minimum CGPA must be between 0 and 10');
+                    return;
+                  }
+                  if (max != null && (max < 0 || max > 10)) {
+                    toast.error('Maximum CGPA must be between 0 and 10');
+                    return;
+                  }
+                  if (min != null && max != null && min > max) {
+                    toast.error('Minimum CGPA cannot be greater than maximum CGPA');
+                    return;
+                  }
                   const payload = shareTab === 0 
                     ? { shareCriteria: Object.fromEntries(
                         Object.entries(shareCriteria).map(([k, v]) => [

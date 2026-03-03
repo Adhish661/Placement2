@@ -118,22 +118,22 @@ const CoordinatorStudentsPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  bgcolor: 'rgba(15,23,42,0.9)',
+                  bgcolor: 'rgba(15, 23, 42, 0.9)',
                   color: '#e5e7eb',
                 },
-                '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' },
+                '& .MuiInputLabel-root': { color: '#d1d5db' },
               }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Search sx={{ color: 'rgba(148,163,184,0.9)' }} />
+                    <Search sx={{ color: '#d1d5db' }} />
                   </InputAdornment>
                 ),
               }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <FormControl fullWidth sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(226,232,240,0.9)' } }}>
+            <FormControl fullWidth sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' } }}>
               <InputLabel>Branch</InputLabel>
               <Select
                 value={filterBranch}
@@ -154,7 +154,7 @@ const CoordinatorStudentsPage = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <FormControl fullWidth sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(226,232,240,0.9)' } }}>
+            <FormControl fullWidth sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' } }}>
               <InputLabel>Passout Year</InputLabel>
               <Select
                 value={filterYear}

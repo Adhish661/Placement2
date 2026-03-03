@@ -530,11 +530,11 @@ const DrivesPage = () => {
                       [f.key]: e.target.value,
                     })
                   }
-                  InputLabelProps={{ sx: { color: '#9fb4ff' } }}
+                  InputLabelProps={{ sx: { color: '#374151' } }}
                   InputProps={{
                     sx: {
-                      color: '#fff',
-                      background: '#0f1b2d',
+                      color: '#111827',
+                      background: '#d1d5db',
                       borderRadius: '10px',
                     },
                   }}
@@ -635,11 +635,11 @@ const DrivesPage = () => {
                     eligibilityCriteria: e.target.value,
                   })
                 }
-                InputLabelProps={{ sx: { color: '#9fb4ff' } }}
+                InputLabelProps={{ sx: { color: '#374151' } }}
                 InputProps={{
                   sx: {
-                    color: '#fff',
-                    background: '#0f1b2d',
+                    color: '#111827',
+                    background: '#d1d5db',
                     borderRadius: '10px',
                   },
                 }}
@@ -657,11 +657,11 @@ const DrivesPage = () => {
                     applicationLink: e.target.value,
                   })
                 }
-                InputLabelProps={{ sx: { color: '#9fb4ff' } }}
+                InputLabelProps={{ sx: { color: '#374151' } }}
                 InputProps={{
                   sx: {
-                    color: '#fff',
-                    background: '#0f1b2d',
+                    color: '#111827',
+                    background: '#d1d5db',
                     borderRadius: '10px',
                   },
                 }}

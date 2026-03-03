@@ -176,7 +176,7 @@ const CoordinatorNotificationsPage = () => {
                         {notification.isRead ? (
                           <Notifications sx={{ color: 'rgba(148,163,184,0.9)' }} />
                         ) : (
-                          <NotificationsActive sx={{ color: '#38bdf8' }} />
+                          <NotificationsActive sx={{ color: '#d1d5db' }} />
                         )}
                         {getNotificationIcon(notification.type)}
                       </ListItemIcon>
@@ -228,7 +228,7 @@ const CoordinatorNotificationsPage = () => {
                             onClick={() => markAsRead(notification._id)}
                             title="Mark as read"
                           >
-                            <CheckCircle sx={{ color: '#38bdf8' }} />
+                            <CheckCircle sx={{ color: '#d1d5db' }} />
                           </IconButton>
                         )}
                         <IconButton
@@ -236,7 +236,7 @@ const CoordinatorNotificationsPage = () => {
                           onClick={() => deleteNotification(notification._id)}
                           title="Delete"
                         >
-                          <Delete sx={{ color: '#f97373' }} />
+                          <Delete sx={{ color: '#d1d5db' }} />
                         </IconButton>
                       </Box>
                     </ListItem>

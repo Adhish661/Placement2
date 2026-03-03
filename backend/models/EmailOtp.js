@@ -10,7 +10,7 @@ const emailOtpSchema = mongoose.Schema(
     },
     purpose: {
       type: String,
-      enum: ['register', 'update_email'],
+      enum: ['register', 'update_email', 'forgot_password'],
       required: true,
     },
     codeHash: {

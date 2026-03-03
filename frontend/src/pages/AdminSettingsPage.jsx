@@ -78,8 +78,8 @@ const AdminSettingsPage = () => {
       return;
     }
 
-    if (passwordData.newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters long');
+    if (passwordData.newPassword.length < 8) {
+      toast.error('Password must be at least 8 characters long');
       return;
     }
 
@@ -144,7 +144,7 @@ const AdminSettingsPage = () => {
             >
               <CardContent>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <Person sx={{ color: '#9fb4ff' }} />
+                  <Person sx={{ color: '#d1d5db' }} />
                   <Typography
                     variant="h6"
                     sx={{ color: '#e5ecff', fontWeight: 600 }}
@@ -192,7 +192,7 @@ const AdminSettingsPage = () => {
             >
               <CardContent>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <Lock sx={{ color: '#9fb4ff' }} />
+                  <Lock sx={{ color: '#d1d5db' }} />
                   <Typography
                     variant="h6"
                     sx={{ color: '#e5ecff', fontWeight: 600 }}
@@ -277,7 +277,7 @@ const AdminSettingsPage = () => {
             >
               <CardContent>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <Notifications sx={{ color: '#9fb4ff' }} />
+                  <Notifications sx={{ color: '#d1d5db' }} />
                   <Typography
                     variant="h6"
                     sx={{ color: '#e5ecff', fontWeight: 600 }}

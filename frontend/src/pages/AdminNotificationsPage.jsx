@@ -97,13 +97,13 @@ const AdminNotificationsPage = () => {
   const getNotificationIcon = (type) => {
     switch (type) {
       case 'drive':
-        return <Work sx={{ color: '#9fb4ff' }} />;
+        return <Work sx={{ color: '#d1d5db' }} />;
       case 'coordinator':
-        return <People sx={{ color: '#9fb4ff' }} />;
+        return <People sx={{ color: '#d1d5db' }} />;
       case 'info':
-        return <Info sx={{ color: '#9fb4ff' }} />;
+        return <Info sx={{ color: '#d1d5db' }} />;
       default:
-        return <Notifications sx={{ color: '#9fb4ff' }} />;
+        return <Notifications sx={{ color: '#d1d5db' }} />;
     }
   };
 

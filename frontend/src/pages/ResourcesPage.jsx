@@ -253,7 +253,7 @@ const ResourcesPage = () => {
                     {count} file{count !== 1 ? 's' : ''}
                   </Typography>
                 </Box>
-                {isSelected ? <ExpandLess sx={{ color: '#38bdf8' }} /> : <ExpandMore sx={{ color: '#38bdf8' }} />}
+                {isSelected ? <ExpandLess sx={{ color: '#d1d5db' }} /> : <ExpandMore sx={{ color: '#d1d5db' }} />}
               </Paper>
             </Grid>
           );
@@ -393,9 +393,9 @@ const ResourcesPage = () => {
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { bgcolor: 'rgba(15,23,42,0.98)', borderRadius: 3, border: '1px solid rgba(148,163,184,0.5)', color: '#e5e7eb' } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>Upload Resource</DialogTitle>
         <DialogContent>
-          <TextField fullWidth label="Title" margin="normal" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} required sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' } }} />
-          <TextField fullWidth label="Description" margin="normal" multiline rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' } }} />
-          <FormControl fullWidth margin="normal" sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' } }}>
+          <TextField fullWidth label="Title" margin="normal" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} required sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' }, '& .MuiInputLabel-root.Mui-focused': { color: '#38bdf8' } }} />
+          <TextField fullWidth label="Description" margin="normal" multiline rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' }, '& .MuiInputLabel-root.Mui-focused': { color: '#38bdf8' } }} />
+          <FormControl fullWidth margin="normal" sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' }, '& .MuiInputLabel-root.Mui-focused': { color: '#38bdf8' } }} >
             <InputLabel>Type</InputLabel>
             <Select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} label="Type">
               <MenuItem value="technical">Technical</MenuItem>
@@ -428,7 +428,7 @@ const ResourcesPage = () => {
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             required
-            sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' } }}
+            sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' }, '& .MuiInputLabel-root.Mui-focused': { color: '#38bdf8' } }}
           />
           <TextField
             fullWidth
@@ -438,9 +438,9 @@ const ResourcesPage = () => {
             rows={3}
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' } }}
+            sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' }, '& .MuiInputLabel-root.Mui-focused': { color: '#38bdf8' } }}
           />
-          <FormControl fullWidth margin="normal" sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15,23,42,0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: 'rgba(148,163,184,0.9)' } }}>
+          <FormControl fullWidth margin="normal" sx={{ '& .MuiOutlinedInput-root': { bgcolor: 'rgba(15, 23, 42, 0.9)', color: '#e5e7eb' }, '& .MuiInputLabel-root': { color: '#d1d5db' }, '& .MuiInputLabel-root.Mui-focused': { color: '#38bdf8' } }}>
             <InputLabel>Type</InputLabel>
             <Select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} label="Type">
               <MenuItem value="technical">Technical</MenuItem>

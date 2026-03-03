@@ -59,6 +59,15 @@ const AdminCoordinatorsPage = () => {
   };
 
   const handleCreateCoordinator = async () => {
+    const nameTrimmed = coordinatorData.name.trim();
+    if (!nameTrimmed || !/^[A-Za-z\s.]+$/.test(nameTrimmed)) {
+      toast.error('Name should contain alphabets and spaces only');
+      return;
+    }
+    if (coordinatorData.password && coordinatorData.password.length < 8) {
+      toast.error('Password must be at least 8 characters long');
+      return;
+    }
     try {
       await axiosInstance.post('/coordinators', coordinatorData);
       toast.success('Coordinator created successfully');
@@ -100,6 +109,11 @@ const AdminCoordinatorsPage = () => {
 
   const handleUpdateCoordinator = async () => {
     if (!editingCoordinator) return;
+    const nameTrimmed = coordinatorData.name.trim();
+    if (!nameTrimmed || !/^[A-Za-z\s.]+$/.test(nameTrimmed)) {
+      toast.error('Name should contain alphabets and spaces only');
+      return;
+    }
     try {
       await axiosInstance.put(`/coordinators/${editingCoordinator._id}`, {
         name: coordinatorData.name,
@@ -330,18 +344,20 @@ const AdminCoordinatorsPage = () => {
                     [field.key]: e.target.value,
                   })
                 }
-                InputLabelProps={{
-                  sx: { color: '#9fb4ff' },
-                }}
-                InputProps={{
-                  sx: {
-                    color: '#fff',
-                    borderRadius: '12px',
-                    background: neuBg,
-                    boxShadow: `
-                      inset 4px 4px 8px ${neuDark},
-                      inset -4px -4px 8px ${neuLight}
-                    `,
+                sx={{
+                  '& .MuiInputBase-root': {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    color: '#e5e7eb',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: '#d1d5db',
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: '#38bdf8',
+                  },
+                  '& .MuiInputBase-input::placeholder': { 
+                    color: '#d1d5db', 
+                    opacity: 1 
                   },
                 }}
               />
@@ -415,13 +431,20 @@ const AdminCoordinatorsPage = () => {
                 onChange={(e) =>
                   setCoordinatorData({ ...coordinatorData, [field.key]: e.target.value })
                 }
-                InputLabelProps={{ sx: { color: '#9fb4ff' } }}
-                InputProps={{
-                  sx: {
-                    color: '#fff',
-                    borderRadius: '12px',
-                    background: neuBg,
-                    boxShadow: `inset 4px 4px 8px ${neuDark}, inset -4px -4px 8px ${neuLight}`,
+                sx={{
+                  '& .MuiInputBase-root': {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    color: '#e5e7eb',
+                  },
+                  '& .MuiInputLabel-root': {
+                    color: '#d1d5db',
+                  },
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    color: '#38bdf8',
+                  },
+                  '& .MuiInputBase-input::placeholder': { 
+                    color: '#d1d5db', 
+                    opacity: 1 
                   },
                 }}
               />

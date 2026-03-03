@@ -37,9 +37,20 @@ const programOptions = ['B.Tech', 'M.Tech'];
 const gradingTypeOptions = ['Percentage', 'CGPA', 'Grade'];
 const LIGHT_GREY = 'rgba(209,213,219,0.95)';
 const formAccentSx = {
-  '& .MuiInputLabel-root': { color: LIGHT_GREY },
-  '& .MuiInputBase-input::placeholder': { color: LIGHT_GREY, opacity: 1 },
-  '& .MuiSvgIcon-root': { color: LIGHT_GREY },
+  '& .MuiInputBase-root': {
+    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+    color: '#e5e7eb',
+  },
+  '& .MuiInputLabel-root': {
+    color: '#d1d5db',
+  },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: '#38bdf8',
+  },
+  '& .MuiInputBase-input::placeholder': { 
+    color: '#d1d5db', 
+    opacity: 1 
+  },
 };
 const isValidMediaUrl = (url) =>
   typeof url === 'string' && (url.startsWith('http') || url.startsWith('/') || url.startsWith('data:'));
@@ -349,6 +360,17 @@ const BasicDetailsTab = ({ profile, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const onlyDigits = (value) => /^\d+$/.test(value);
+
+    if (formData.contactInfo.phone && !onlyDigits(formData.contactInfo.phone)) {
+      toast.error('Phone number should contain digits only');
+      return;
+    }
+    if (formData.contactInfo.alternatePhone && !onlyDigits(formData.contactInfo.alternatePhone)) {
+      toast.error('Alternate phone number should contain digits only');
+      return;
+    }
+
     onSave(formData);
   };
 
@@ -407,6 +429,7 @@ const BasicDetailsTab = ({ profile, onSave }) => {
           <TextField
             fullWidth
             label="Phone Number"
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             value={formData.contactInfo.phone}
             onChange={(e) =>
               setFormData({
@@ -422,6 +445,7 @@ const BasicDetailsTab = ({ profile, onSave }) => {
           <TextField
             fullWidth
             label="Alternate Phone"
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             value={formData.contactInfo.alternatePhone}
             onChange={(e) =>
               setFormData({

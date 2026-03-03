@@ -144,8 +144,8 @@ const LoginPage = () => {
                   lineHeight: 1.8,
                 }}
               >
-                IES Career Connect bridges students, coordinators and recruiters on a single platform,
-                delivering structured placement drives and real-time updates for every opportunity.
+                IES Career Connects  students, coordinators and recruiters on a single platform,
+                placement drives and Job oppurtunities for students.
               </Typography>
 
               <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -165,7 +165,7 @@ const LoginPage = () => {
                       Students
                     </Typography>
                     <Typography variant="body2" sx={{ color: '#e5e7eb' }}>
-                      Track drives, apply faster and stay informed.
+                      Get Drive details and apply to opportunities.
                     </Typography>
                   </Box>
                 </Grid>
@@ -185,7 +185,7 @@ const LoginPage = () => {
                       Coordinators
                     </Typography>
                     <Typography variant="body2" sx={{ color: '#e5e7eb' }}>
-                      Manage departments, interviews and selections.
+                      Manage Students and their applications.
                     </Typography>
                   </Box>
                 </Grid>
@@ -273,7 +273,10 @@ const LoginPage = () => {
                       color: '#e5e7eb',
                     },
                     '& .MuiInputLabel-root': {
-                      color: '#9ca3af',
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
                     },
                   }}
                 />
@@ -294,7 +297,10 @@ const LoginPage = () => {
                       color: '#e5e7eb',
                     },
                     '& .MuiInputLabel-root': {
-                      color: '#9ca3af',
+                      color: '#d1d5db',
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#38bdf8',
                     },
                   }}
                 />
@@ -326,6 +332,20 @@ const LoginPage = () => {
                 </Button>
 
                 <Box textAlign="center" mt={1}>
+                  <Link
+                    component="button"
+                    variant="body2"
+                    onClick={() => navigate('/forgot-password')}
+                    sx={{
+                      cursor: 'pointer',
+                      color: '#4facfe',
+                      fontSize: '0.875rem',
+                      '&:hover': { textDecoration: 'underline' },
+                      mr: 2,
+                    }}
+                  >
+                    Forgot Password?
+                  </Link>
                   <Link
                     component="button"
                     variant="body2"

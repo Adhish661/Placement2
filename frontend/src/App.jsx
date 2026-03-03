@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ProfilePage from './pages/ProfilePage';
 import DrivesPage from './pages/DrivesPage';
 import ApplicationsPage from './pages/ApplicationsPage';
@@ -43,6 +44,10 @@ function App() {
         <Route
           path="/register"
           element={userInfo ? <Navigate to="/dashboard" /> : <RegisterPage />}
+        />
+        <Route
+          path="/forgot-password"
+          element={userInfo ? <Navigate to="/dashboard" /> : <ForgotPasswordPage />}
         />
         <Route
           path="/dashboard"

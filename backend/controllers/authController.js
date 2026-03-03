@@ -187,6 +187,16 @@ export const registerStudent = asyncHandler(async (req, res) => {
     throw new Error('Email verification is required');
   }
 
+  if (!name || !/^[A-Za-z\s.]+$/.test(String(name).trim())) {
+    res.status(400);
+    throw new Error('Name must contain alphabets and spaces only');
+  }
+
+  if (!password || password.length < 8) {
+    res.status(400);
+    throw new Error('Password must be at least 8 characters long');
+  }
+
   let decoded;
   try {
     decoded = jwt.verify(verificationToken, process.env.JWT_SECRET);
@@ -291,6 +301,11 @@ export const getMe = asyncHandler(async (req, res) => {
 export const updatePassword = asyncHandler(async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
+  if (!newPassword || newPassword.length < 8) {
+    res.status(400);
+    throw new Error('Password must be at least 8 characters long');
+  }
+
   const user = await User.findById(req.user._id);
 
   if (user && (await user.matchPassword(currentPassword))) {
@@ -301,5 +316,101 @@ export const updatePassword = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('Current password is incorrect');
   }
+});
+
+// @desc    Request password reset OTP
+// @route   POST /api/auth/request-password-reset
+// @access  Public
+export const requestPasswordReset = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!isValidEmail(email)) {
+    res.status(400);
+    throw new Error('Invalid email address');
+  }
+
+  const normalizedEmail = String(email).trim().toLowerCase();
+
+  // Check if user exists with this email
+  const user = await User.findOne({ email: normalizedEmail });
+  if (!user) {
+    // Don't leak whether email exists
+    return res.json({ message: 'If email exists, password reset OTP has been sent' });
+  }
+
+  // Delete any existing forgot_password OTP for this email
+  await EmailOtp.deleteMany({
+    email: normalizedEmail,
+    purpose: 'forgot_password',
+  });
+
+  const otpCode = createOtpCode();
+  const codeHash = await bcrypt.hash(otpCode, 10);
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+  await EmailOtp.create({
+    email: normalizedEmail,
+    purpose: 'forgot_password',
+    codeHash,
+    expiresAt,
+  });
+
+  await sendEmailOtp(normalizedEmail, otpCode, 'forgot_password');
+
+  res.json({ message: 'Password reset OTP sent successfully' });
+});
+
+// @desc    Reset password using OTP
+// @route   POST /api/auth/reset-password
+// @access  Public
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { email, code, newPassword } = req.body;
+
+  if (!isValidEmail(email) || !code || !newPassword) {
+    res.status(400);
+    throw new Error('Email, OTP code, and new password are required');
+  }
+
+  const normalizedEmail = String(email).trim().toLowerCase();
+
+  // Verify OTP
+  const otpRecord = await EmailOtp.findOne({
+    email: normalizedEmail,
+    purpose: 'forgot_password',
+  }).sort({ createdAt: -1 });
+
+  if (!otpRecord || otpRecord.expiresAt < new Date()) {
+    res.status(400);
+    throw new Error('OTP expired or not found');
+  }
+
+  if (otpRecord.attempts >= 5) {
+    res.status(429);
+    throw new Error('Too many failed attempts');
+  }
+
+  const isMatch = await bcrypt.compare(String(code), otpRecord.codeHash);
+  otpRecord.attempts += 1;
+  
+  if (!isMatch) {
+    await otpRecord.save();
+    res.status(400);
+    throw new Error('Invalid OTP');
+  }
+
+  // Find and update user password
+  const user = await User.findOne({ email: normalizedEmail });
+  if (!user) {
+    res.status(400);
+    throw new Error('User not found');
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  // Mark OTP as verified and delete it
+  await EmailOtp.deleteOne({ _id: otpRecord._id });
+
+  res.json({ message: 'Password reset successfully. Please login with your new password.' });
 });
 

@@ -400,7 +400,7 @@ const StudentDashboard = () => {
                 <List>
                   {certificates.map((cert) => (
                     <ListItem key={cert._id} sx={{ border: '1px solid rgba(148,163,184,0.45)', mb: 1, borderRadius: 2, bgcolor: 'rgba(15,23,42,0.6)' }}>
-                      <InsertDriveFile sx={{ mr: 2, color: '#38bdf8' }} />
+                      <InsertDriveFile sx={{ mr: 2, color: '#d1d5db' }} />
                       <ListItemText
                         primary={cert.title}
                         secondary={
